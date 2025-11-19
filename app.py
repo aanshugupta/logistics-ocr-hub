@@ -1,22 +1,55 @@
 import streamlit as st
-import pandas as pd
-import os
-
 st.set_page_config(page_title="Logistics OCR Hub", layout="wide")
 
-st.title("📦 Logistics OCR Hub (MVP)")
+# Custom UI CSS
+st.markdown("""
+<style>
 
-st.write("Welcome, Aanshu! Use the sidebar to upload documents, verify data, search trips, and download reports.")
+/* Main container padding */
+.block-container {
+    padding-top: 2rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
 
-# Show quick stats
-if os.path.exists("data/trips.csv"):
-    df = pd.read_csv("data/trips.csv")
+/* Sidebar styling */
+section[data-testid="stSidebar"] {
+    background-color: #f8f9fa;
+    padding-top: 30px;
+}
 
-    col1, col2, col3 = st.columns(3)
+/* Sidebar text */
+section[data-testid="stSidebar"] .css-1d391kg {
+    font-size: 18px;
+}
 
-    col1.metric("Total Trips", len(df))
-    col2.metric("Verified", len(df[df["status"] == "verified"]))
-    col3.metric("Pending", len(df[df["status"] == "pending_verification"]))
-else:
-    st.info("No data found. Please upload a document first.")
+/* Headings */
+h1, h2, h3 {
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 700;
+}
 
+/* Cards */
+.card {
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+}
+
+/* Soft alert info */
+.alert-info {
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #e8f1ff;
+    color: #1a3d7c;
+}
+
+/* Tables */
+table {
+    border-radius: 8px;
+}
+
+</style>
+""", unsafe_allow_html=True)
