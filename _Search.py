@@ -12,11 +12,15 @@ if os.path.exists(file_path):
     query = st.text_input("Search by Trip ID, Invoice, Driver, Vehicle")
 
     if query:
-        results = df[df.apply(lambda x: x.astype(str).str.contains(query, case=False).any(), axis=1)]
+        results = df[df.apply(
+            lambda x: x.astype(str).str.contains(query, case=False).any(),
+            axis=1
+        )]
+
         st.dataframe(results)
 
         if not results.empty:
             st.download_button("Download CSV", results.to_csv(index=False), "search_results.csv")
+
 else:
     st.warning("No data found!")
-
