@@ -15,10 +15,12 @@ if os.path.exists(file_path):
 
     st.download_button("Download Verified CSV", verified.to_csv(index=False), "verified_trips.csv")
 
-    st.write("### Simple Summary")
-    st.metric("Total Trips", len(df))
-    st.metric("Verified", len(verified))
-    st.metric("Pending", len(df[df["status"] == 'pending_verification']))
+    st.write("### Summary")
+    col1, col2, col3 = st.columns(3)
+
+    col1.metric("Total Trips", len(df))
+    col2.metric("Verified", len(verified))
+    col3.metric("Pending", len(df[df["status"]=='pending_verification']))
+
 else:
     st.warning("No data found!")
-
