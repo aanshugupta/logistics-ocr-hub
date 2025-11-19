@@ -13,13 +13,13 @@ uploaded = st.file_uploader("Upload PDF or Image", type=["jpg", "png", "jpeg", "
 if uploaded:
     st.image(uploaded, width=300)
 
-    st.write("Extracting data... Please wait.")
+    st.info("Extracting data... Please wait...")
 
     response = client.models.generate_content(
         model="gemini-1.5-flash",
         contents=[
-            "Extract Trip details (Trip ID, Invoice No, Driver, Vehicle No, "
-            "Loading, Destination, Quantity) in clean JSON format.",
+            "Extract Trip details (Trip ID, Invoice No, Driver, Vehicle No, Loading, "
+            "Destination, Quantity) in clean JSON format.",
             genai.types.Part.from_file(uploaded)
         ]
     )
@@ -27,9 +27,8 @@ if uploaded:
     st.subheader("Extracted Data")
     st.json(response.text)
 
-    extracted = eval(response.text)  # Convert JSON string → Python dict
+    extracted = eval(response.text)
 
-    # Save to CSV
     df = pd.DataFrame([{
         "trip_id": extracted.get("trip_id"),
         "invoice_no": extracted.get("invoice_no"),
@@ -44,7 +43,6 @@ if uploaded:
     }])
 
     os.makedirs("data", exist_ok=True)
-
     file_path = "data/trips.csv"
 
     if not os.path.exists(file_path):
@@ -55,4 +53,3 @@ if uploaded:
         new.to_csv(file_path, index=False)
 
     st.success("Document added to verification queue!")
-
